@@ -1,8 +1,9 @@
 const ClientError = require("../../exceptions/ClientError");
 
 class AlbumsHandler {
-  constructor(service) {
+  constructor(service, validator) {
     this._service = service;
+    this._validator = validator;
 
     this.postAlbumHandler = this.postAlbumHandler.bind(this);
     this.getAlbumByIdHandler = this.getAlbumByIdHandler.bind(this);
@@ -12,6 +13,7 @@ class AlbumsHandler {
 
   async postAlbumHandler(req, h) {
     try {
+      this._validator.validateAlbumPayload(req.payload);
       const { name, year } = req.payload;
 
       const albumId = await this._service.addAlbum({ name, year });
@@ -81,7 +83,9 @@ class AlbumsHandler {
 
   async putAlbumByIdHandler(req, h) {
     try {
+      this._validator.validateAlbumPayload(req.payload);
       const { id } = req.params;
+
       await this._service.putAlbumById(id, req.payload);
 
       return {

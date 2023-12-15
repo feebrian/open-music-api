@@ -2,6 +2,7 @@ require("dotenv").config();
 const Hapi = require("@hapi/hapi");
 const AlbumsService = require("./service/postgres/AlbumsService");
 const albumsPlugin = require("./api/albums");
+const AlbumsValidator = require("./validator/albums");
 
 const init = async () => {
   const server = Hapi.server({
@@ -15,6 +16,7 @@ const init = async () => {
     plugin: albumsPlugin,
     options: {
       service: new AlbumsService(),
+      validator: AlbumsValidator,
     },
   });
 
