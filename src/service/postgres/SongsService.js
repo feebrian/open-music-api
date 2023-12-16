@@ -46,7 +46,6 @@ class SongsService {
         "SELECT id, title, performer FROM songs WHERE title ILIKE $1 AND performer ILIKE $2",
         [title + "%", performer + "%"]
       );
-      console.log(result);
     }
 
     if (!performer && !title) {
